@@ -9,30 +9,7 @@ namespace IronSoftConsoleApp
         {
             try
             {
-                Console.WriteLine("Old Phone Pad Converter");
-                Console.WriteLine("Type your input and press Enter. Press ESC to exit.\n");
-
-                while (true)
-                {
-                    Console.Write("Input: ");
-                    string input = Console.ReadLine();
-
-                    string output = OldPhonePad(input);
-                    Console.WriteLine("Output: " + output);
-                    Console.WriteLine();
-
-                    Console.WriteLine("Type your input and press Enter. Press ESC to exit.\n");
-
-                    ConsoleKeyInfo key = Console.ReadKey(true);
-
-                    if (key.Key == ConsoleKey.Escape)
-                    {
-                        Console.WriteLine("Exiting...");
-                        break;
-                    }
-
-                    Console.WriteLine();
-                }
+                OldPhonePad();
             }
             catch (Exception e)
             {
@@ -41,7 +18,40 @@ namespace IronSoftConsoleApp
             }
         }
 
-        public static string OldPhonePad(string input)
+        public static void OldPhonePad()
+        {
+            Console.WriteLine("Old Phone Pad Converter");
+            Console.WriteLine("Type your input and press Enter. Press ESC to exit.\n");
+
+            while (true)
+            {
+                Console.Write("Input: ");
+                string input = Console.ReadLine();
+
+                if (string.IsNullOrEmpty(input))
+                {
+                    Console.WriteLine("Input cannot be empty. Please try again.\n");
+                    continue;
+                }
+
+                string output = OldPhonePadConverter(input);
+                Console.WriteLine("Output: " + output + "\n");
+
+                Console.WriteLine("Press any key to continue or ESC to exit.\n");
+
+                ConsoleKeyInfo key = Console.ReadKey(true);
+
+                if (key.Key == ConsoleKey.Escape)
+                {
+                    Console.WriteLine("Exiting...");
+                    break;
+                }
+
+                Console.WriteLine();
+            }
+        }
+
+        public static string OldPhonePadConverter(string input)
         {
             string result = "-";
 
@@ -49,16 +59,16 @@ namespace IronSoftConsoleApp
             else
             {
                 // Validate and split input
-                var validatedInput = ValidateInput(input);
+                var digitGroupList = SplitIntoDigitGroups(input);
 
                 // Map each group to characters
-                result = MapCharacter(validatedInput);
+                result = MapCharacter(digitGroupList);
             }
 
             return result;
         }
 
-        public static List<string> ValidateInput(string input)
+        public static List<string> SplitIntoDigitGroups(string input)
         {
             // Trim whitespace 
             input = input.Trim();
@@ -89,7 +99,7 @@ namespace IronSoftConsoleApp
             return letterList;
         }
 
-        public static string MapCharacter(List<string> validatedInput)
+        public static string MapCharacter(List<string> digitGroupList)
         {
             var result = "";
             var charactorDictionary = new Dictionary<char, string>()
@@ -104,7 +114,7 @@ namespace IronSoftConsoleApp
                 {'9', "WXYZ"}
             };
 
-            foreach (string group in validatedInput)
+            foreach (string group in digitGroupList)
             {
                 char digit = group[0];
 
