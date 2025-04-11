@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace IronSoftConsoleApp
 {
-    internal class Program
+    public static class OldPhonePadClass
     {
         static void Main(string[] args)
         {
@@ -89,7 +89,7 @@ namespace IronSoftConsoleApp
                     else
                     {
                         // Case different digit, add to letterList
-                        letterList.Add(digitLetter);
+                        if(digitLetter != " ")letterList.Add(digitLetter);
                         digitLetter = eachDigit;
                     }
 
