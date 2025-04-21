@@ -1,0 +1,99 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace IronSoftConsoleApp.Models
+{
+    public class OldPhonePadModel
+    {
+        public static string OldPhonePadConverter(string input)
+        {
+            string result = "-";
+
+            if (!input.EndsWith("#")) Console.WriteLine("Input must end with '#'. Please check the input and try again.");
+            else
+            {
+                // Validate and split input
+                var digitGroupList = SplitIntoDigitGroups(input);
+
+                // Map each group to characters
+                result = MapCharacter(digitGroupList);
+            }
+
+            return result;
+        }
+
+        public static List<string> SplitIntoDigitGroups(string input)
+        {
+            // Trim whitespace 
+            input = input.Trim();
+
+            var letterList = new List<string>();
+            var digitLetter = "";
+
+            foreach (char i in input)
+            {
+                var eachDigit = i.ToString();
+
+                // Case empty, assign first digit
+                if (digitLetter.Length == 0) digitLetter = eachDigit;
+                else
+                {
+                    // Case same digit, stack digitLetter
+                    if (digitLetter.Contains(eachDigit)) digitLetter += eachDigit;
+                    else
+                    {
+                        // Case different digit, add to letterList
+                        if (digitLetter != " ") letterList.Add(digitLetter);
+                        digitLetter = eachDigit;
+                    }
+
+                }
+            }
+
+            return letterList;
+        }
+
+        public static string MapCharacter(List<string> digitGroupList)
+        {
+            var result = "";
+            var charactorDictionary = new Dictionary<char, string>()
+            {
+                {'2', "ABC"},
+                {'3', "DEF"},
+                {'4', "GHI"},
+                {'5', "JKL"},
+                {'6', "MNO"},
+                {'7', "PQRS"},
+                {'8', "TUV"},
+                {'9', "WXYZ"},
+                {'0', " "}
+            };
+
+            foreach (string group in digitGroupList)
+            {
+                char digit = group[0];
+
+                if (digit == '#') break; // Case '#', end mapping
+                else if (digit == '*')
+                {
+                    if (result.Length > 0) result = result.Remove(result.Length - 1, 1); // Case '*', remove previous
+                }
+                else if (charactorDictionary.ContainsKey(digit))
+                {
+                    // Case match, find exact charactor
+                    string letters = charactorDictionary[digit];
+                    int digitCount = group.Length;
+                    //int letterCount = letters.Length;
+                    //int index = letterCount > digitCount ? digitCount : (digitCount - 1) % letters.Length; 
+                    int index = (digitCount - 1) % letters.Length;
+                    result = result += letters[index];
+                }
+            }
+
+            return result;
+        }
+    }
+}
