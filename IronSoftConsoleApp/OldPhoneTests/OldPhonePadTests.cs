@@ -6,6 +6,27 @@ namespace OldPhoneTests
     [TestFixture]
     public class OldPhonePadTests
     {
+        [Test]
+        public void OldPhone_AddZero_ReturnSpaceCahractor()
+        {
+            string input = "44 4440444777666 660777766633389277733#";
+            var expected = "HI IRON SOFTWARE";
+
+            var actual = OldPhonePadClass.OldPhonePadConverter(input);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void OldPhone_AddZero_ReturnSpaceCahractor1()
+        {
+            string input = "4433555 55566606266#";
+            var expected = "HELLO MAN";
+
+            var actual = OldPhonePadClass.OldPhonePadConverter(input);
+
+            Assert.AreEqual(expected, actual);
+        }
 
         [Test]
         public void OldPhone_MissingSharp_ReturnDash()
@@ -83,5 +104,7 @@ namespace OldPhoneTests
 
             Assert.AreEqual(expected, actual);
         }
+
+        
     }
 }

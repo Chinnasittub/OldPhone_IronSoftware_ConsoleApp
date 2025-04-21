@@ -111,7 +111,8 @@ namespace IronSoftConsoleApp
                 {'6', "MNO"},
                 {'7', "PQRS"},
                 {'8', "TUV"},
-                {'9', "WXYZ"}
+                {'9', "WXYZ"},
+                {'0', " "}
             };
 
             foreach (string group in digitGroupList)
